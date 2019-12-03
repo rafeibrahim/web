@@ -25,6 +25,8 @@ app.use('/car', carRoute);
 app.use('/user', userRoute);
 
 app.use(express.static('public'));
+//this static route has nothing to do with multer upload.
+//app.use(express.static('uploads'));
 
 
 

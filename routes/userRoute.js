@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
                 res.send(userArray[0]);
         }catch(e){
                 console.log(e.message);
-                res.send({error: e.message});
+                res.status(400).send();
                 //return {error: 'error in database query'};
             }
  });
