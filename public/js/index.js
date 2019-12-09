@@ -1,6 +1,6 @@
 'use strict';
-const serverUrl = 'https://localhost:8000'; // change url when uploading to server
-const localUrl = 'http://127.0.0.1:5500/public/';
+const serverUrl = 'https://10.114.32.138/carapp'; // change url when uploading to server
+const localUrl = 'https://10.114.32.138/carapp/';
 const ul = document.querySelector('#car-card-list');
 const main = document.querySelector('main');
 const logBtn = document.querySelector('#log-btn');
