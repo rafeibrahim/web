@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CarApp</title>
+    <title>User Settings</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <style>
@@ -18,16 +18,14 @@ h1{
     background-color: lightgray;
 }
 h2{
-    font-size: 1.1em;
     text-align: center;
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
 }
 p{
-    text-align: start;
+    text-align: center;
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
-    font-size: 0.8em;
 }
 
 nav ul {
@@ -105,7 +103,7 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 }
 
 .car-li{
-    width: 20%;
+    width: 15%;
     margin: .5em;
 }
 
@@ -117,8 +115,9 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 .car-btn{
     background-color: #ccc;
     color: rgb(0, 0, 0);
-    width:100%;
+    width:80%;
     margin-top: 0.5em;
+    margin-left:1em;
     border-radius: 8px;
     border: 1px solid #ccc;
     padding: 0.5em;
@@ -140,6 +139,33 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
     background-color: lightgrey;
 }
 
+.update-container {
+    max-width: 30%;
+    margin: auto;
+    padding: 1em;
+}
+
+.login-div {
+    padding: 5px;
+    width: fit-content;
+    margin: auto;
+}
+
+.signup-label{
+    font-size: 1.17em;
+    font-weight: bold;
+    margin: auto;
+}
+
+.login-btn{
+    font-weight: bold;
+    font-size: 1.17em;
+}
+
+.login-btn:hover{
+    background-color: red;
+}
+
 .hide {
     display: none !important;
 }
@@ -155,10 +181,8 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 
 #event-p{
   color: white;
-  text-align: center;
-  height: inherit;
+  height: 1.5em;
   background-color: lightslategray;
-  font-size: 0.8em;
 }
 
 </style>
@@ -170,7 +194,8 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 <nav>
         <ul>
           <li><a href="#home" id="home-btn">HOME</a></li>
-          <li class="nav-dropdown">
+          <!-- <li><a href="#news">News</a></li> -->
+          <!-- <li class="nav-dropdown">
             <a href="javascript:void(0)" class="nav-dropbtn">SORT <i class="fa fa-caret-down" style="display: inline;"></i></a>
             <div class="nav-dropdown-content">
               <a href="#">By Price</a>
@@ -180,28 +205,40 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
           <li class="nav-dropdown">
             <a href="javascript:void(0)" class="nav-dropbtn" id="acc-btn">ACCOUNT <i class="fa fa-caret-down" style="display: inline;"></i></a>
             <div class="nav-dropdown-content">
-              <a href="#" id="userPage-btn">User Page</a>
-              <a href="#" id="settings-btn">Settings</a>
+              <a href="#">Own Page</a>
+              <a href="#">Settings</a>
             </div>
           </li>
           <li><a href="#" id="log-btn">LOGIN</a></li>
           <li><a href="#home" id="signup-btn">SIGNUP</a></li>
-        </ul>
+        </ul> -->
         </nav>
-    <div class="event-container">
-        <p id="event-p">Welcome to CARAPP</p>
-    </div>
+        <div class="event-container">
+          <p id="event-p">Please enter credentials to update your account</p>
+        </div>
 
-
-<div class="car-container">
-        <main>
-            <ul class="car-ul" id="car-card-list">
-              <!-- js creates list here -->
-            </ul>
-          <hr>
-        </main>
-</div>
-</div>
-<script src="./js/index.js"></script>
+        <div class="update-container">
+                <h2 class="light-border">UPDATE ACCOUNT</h2>
+                 <form id="update-form" class="light-border">
+                    <div class="login-div">
+                        <label class="signup-label">Name:</label>
+                        <input class="light-border" type="text" size="40px" name="user_name" required/>
+                    </div>
+                     <div class="login-div">
+                        <label class="signup-label">Address:</label>
+                        <input class="light-border" type="text" size="40px" name="user_address" required/>
+                    </div>
+                     <div class="login-div">
+                         <label class="signup-label">Password:</label>
+                         <input class="light-border" type="password" size="40px" name="user_password" required/>
+                     </div>
+                     <div class="login-div">
+                         <button class="light-border login-btn" type="submit">UPDATE</button>
+                     </div>
+                 </form>
+                 </div>
+        </div>
+<script src="./js/serialize.js"></script>
+<script src="./js/user-settings.js"></script>
 </body>
 </html>

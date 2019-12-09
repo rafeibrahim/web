@@ -12,18 +12,21 @@ const auth = async (req, res, next) =>{
         const decoded = jwt.verify(token, 'webproject');
         console.log(decoded);
         const user_email = decoded.user_email;
+        if(!user_email){
+            throw Error('token donot contain user_email field');
+        }
         //first we have to get the user with user_email in decoded object.
         const [users] = await promisePool.execute('SELECT * FROM web_user WHERE user_email = ?;', [user_email]);
         console.log(users);
         if(users.length == 0){
             throw Error('no user exist with this email');
         }
-        const user_id = users[0].user_id;
-        const [tokenRows] = await promisePool.execute('SELECT * FROM web_token where token_user_fk = ? && token_content = ?;', [user_id, token]);
-        console.log(tokenRows);
-        if(tokenRows.length == 0){
-            throw Error('token not present in database with this user_id');
-        }
+        // const user_id = users[0].user_id;
+        // const [tokenRows] = await promisePool.execute('SELECT * FROM web_token where token_user_fk = ? && token_content = ?;', [user_id, token]);
+        // console.log(tokenRows);
+        // if(tokenRows.length == 0){
+        //     throw Error('token not present in database with this user_id');
+        // }
 
         //attaching user found through token to req.user
         req.user = users[0];

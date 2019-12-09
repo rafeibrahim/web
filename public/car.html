@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CarApp</title>
+    <title>Car</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <style>
@@ -18,16 +18,14 @@ h1{
     background-color: lightgray;
 }
 h2{
-    font-size: 1.1em;
     text-align: center;
-    margin-block-start: 0.5em;
-    margin-block-end: 0.5em;
+    margin-block-start: 0.1em;
+    margin-block-end: 0.1em;
 }
 p{
-    text-align: start;
-    margin-block-start: 0.5em;
-    margin-block-end: 0.5em;
-    font-size: 0.8em;
+    text-align: center;
+    margin-block-start: 0.1em;
+    margin-block-end: 0.1em;
 }
 
 nav ul {
@@ -104,8 +102,10 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
     
 }
 
+
+
 .car-li{
-    width: 20%;
+    width: 25%;
     margin: .5em;
 }
 
@@ -117,8 +117,9 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 .car-btn{
     background-color: #ccc;
     color: rgb(0, 0, 0);
-    width:100%;
+    width:80%;
     margin-top: 0.5em;
+    margin-left:1em;
     border-radius: 8px;
     border: 1px solid #ccc;
     padding: 0.5em;
@@ -128,7 +129,7 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 .light-border {
     border-radius: 8px;
     border: 2px solid #7b7878;
-    padding: 1em;
+    padding: 0em;
     box-sizing: border-box;
     background-color: lightslategray;
     
@@ -140,26 +141,35 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
     background-color: lightgrey;
 }
 
+.item-ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+     display: flex;
+    flex-wrap: wrap;
+    /*justify-content: center; */
+}
+
+.item-li{
+    width: 100%;
+    margin: .5em;
+}
+.item-details{
+    width: 48%;
+    margin: .5em;
+    
+}
+.item-p{
+    width:100%;
+    margin: auto;
+    text-align:left;
+    font-size: small;
+}
+
 .hide {
     display: none !important;
 }
 
-.event-container{
-  border-radius: 8px; 
-  border: 2px solid #7b7878;
-  width: 80%;
-  margin: auto;
-  box-sizing: border-box;
-  margin-top: 1em;
-}
-
-#event-p{
-  color: white;
-  text-align: center;
-  height: inherit;
-  background-color: lightslategray;
-  font-size: 0.8em;
-}
 
 </style>
 </head>
@@ -168,40 +178,31 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 
 <h1><i class="fab fas fa-car"></i> CARAPP <i class="fab fas fa-car"></i></h1>
 <nav>
-        <ul>
-          <li><a href="#home" id="home-btn">HOME</a></li>
-          <li class="nav-dropdown">
-            <a href="javascript:void(0)" class="nav-dropbtn">SORT <i class="fa fa-caret-down" style="display: inline;"></i></a>
-            <div class="nav-dropdown-content">
-              <a href="#">By Price</a>
-              <a href="#">By Date</a>
-            </div>
-          </li>
-          <li class="nav-dropdown">
-            <a href="javascript:void(0)" class="nav-dropbtn" id="acc-btn">ACCOUNT <i class="fa fa-caret-down" style="display: inline;"></i></a>
-            <div class="nav-dropdown-content">
-              <a href="#" id="userPage-btn">User Page</a>
-              <a href="#" id="settings-btn">Settings</a>
-            </div>
-          </li>
-          <li><a href="#" id="log-btn">LOGIN</a></li>
-          <li><a href="#home" id="signup-btn">SIGNUP</a></li>
-        </ul>
-        </nav>
-    <div class="event-container">
-        <p id="event-p">Welcome to CARAPP</p>
-    </div>
-
+<ul>
+  <li><a href="#home" id="home-btn">HOME</a></li>
+  <li><a href="#" id="edit-btn">EDIT</a></li>
+</ul>
+</nav>
 
 <div class="car-container">
+        <!-- <main style="display: none"> -->
         <main>
-            <ul class="car-ul" id="car-card-list">
-              <!-- js creates list here -->
-            </ul>
-          <hr>
+        <ul class="item-ul" id="car-details-list">
+                <!-- js creates car detail lists here -->
+        </ul>
+        <hr>
+        <ul class="item-ul" id="owner-details-list">
+                <!--js creates owner detail list here--> 
+             </ul>
+        <hr>
+        <ul class="car-ul" id="car-card-list">
+                <!--js creates car images card here-->
+        </ul>
+          
+
         </main>
 </div>
 </div>
-<script src="./js/index.js"></script>
+<script src="./js/car.js"></script>
 </body>
 </html>

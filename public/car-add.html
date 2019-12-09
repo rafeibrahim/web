@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<style>
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Verdana;
+}
+h1{
+    text-align: center;
+    background-color:  lightslategray;
+    margin-block-start: 0.67em;
+    margin-block-end: 0em;
+    background-color: lightgray;
+}
+h2{
+    text-align: center;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+}
+p{
+    text-align: center;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  background-color:  lightslategray;
+  width: 95%;
+  border-radius: 8px;
+  border: 4px solid #7b7878;
+}
+
+nav li {
+  float: left;
+  
+}
+
+nav li a, .nav-dropbtn {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
+  background-color: red;
+}
+
+.nav-dropdown {
+  display: inline-block;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: lightslategray;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.nav-dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content a:hover {background-color: #f1f1f1;}
+
+.nav-dropdown:hover .nav-dropdown-content {
+  display: block;
+}
+
+.car-container {
+    max-width: 100%;
+    margin: auto;
+    padding: 1em;
+}
+.car-img-resp {
+    width: 100%;
+}
+
+.car-ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+}
+
+.car-li{
+    width: 15%;
+    margin: .5em;
+}
+
+.car-fig{
+    margin: 0;
+    padding: 0;
+}
+
+.car-btn{
+    background-color: #ccc;
+    color: rgb(0, 0, 0);
+    width:80%;
+    margin-top: 0.5em;
+    margin-left:1em;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    box-sizing: border-box;
+}
+
+.light-border {
+    border-radius: 8px;
+    border: 2px solid #7b7878;
+    padding: 1em;
+    box-sizing: border-box;
+    background-color: lightslategray;
+    
+}
+
+.app-container{
+    width: 60%;
+    margin: auto;
+    background-color: lightgrey;
+}
+
+.signup-container {
+    max-width: 30%;
+    margin: auto;
+    padding: 1em;
+}
+
+.login-div {
+    padding: 5px;
+    width: auto;
+    margin: auto;
+}
+
+.signup-label{
+    font-size: 1.17em;
+    font-weight: bold;
+    margin: auto;
+}
+
+.login-btn{
+    font-weight: bold;
+    font-size: 1.17em;
+}
+
+.login-btn:hover{
+    background-color: red;
+}
+
+.hide {
+    display: none !important;
+}
+
+.event-container{
+  border-radius: 8px; 
+  border: 2px solid #7b7878;
+  width: 80%;
+  margin: auto;
+  box-sizing: border-box;
+  margin-top: 1em;
+}
+
+#event-p{
+  color: white;
+  height: 1.5em;
+  background-color: lightslategray;
+}
+
+</style>
+</head>
+<body>
+    <div class="app-container">
+
+<h1><i class="fab fas fa-car"></i> CARAPP <i class="fab fas fa-car"></i></h1>
+<nav>
+        <ul>
+          <li><a href="#home" id="home-btn">HOME</a></li>
+          <!-- <li><a href="#news">News</a></li> -->
+          <!-- <li class="nav-dropdown">
+            <a href="javascript:void(0)" class="nav-dropbtn">SORT <i class="fa fa-caret-down" style="display: inline;"></i></a>
+            <div class="nav-dropdown-content">
+              <a href="#">By Price</a>
+              <a href="#">By Date</a>
+            </div>
+          </li>
+          <li class="nav-dropdown">
+            <a href="javascript:void(0)" class="nav-dropbtn" id="acc-btn">ACCOUNT <i class="fa fa-caret-down" style="display: inline;"></i></a>
+            <div class="nav-dropdown-content">
+              <a href="#">Own Page</a>
+              <a href="#">Settings</a>
+            </div>
+          </li>
+          <li><a href="#" id="log-btn">LOGIN</a></li>
+          <li><a href="#home" id="signup-btn">SIGNUP</a></li>
+        </ul> -->
+        </nav>
+        <div class="event-container">
+          <p id="event-p">Please enter car details and click create button</p>
+        </div>
+
+        <div class="signup-container">
+                <h2 class="light-border">CREATE CAR AD</h2>
+                 <form id="ad-create-form" class="light-border" enctype="multipart/form-data">
+                    <div class="login-div">
+                        <label class="signup-label">Reg. No:</label>
+                        <input class="light-border" type="text" size="40px" name="car_reg" required/>
+                    </div>
+                     <div class="login-div">
+                         <label class="signup-label">Model:</label>
+                         <input class="light-border" type="text" size="40px" name="car_model" required/>
+                     </div>
+                     <div class="login-div">
+                      <label class="signup-label">Price:</label>
+                      <input class="light-border" type="text" size="40px" name="car_price" required/>
+                    </div>
+                     <div class="login-div">
+                      <label class="signup-label">Location:</label>
+                      <input class="light-border" type="text" size="40px" name="car_location" required/>
+                     </div>
+                      <div class="login-div">
+                        <label class="signup-label">Mileage:</label>
+                        <input class="light-border" type="text" size="40px" name="car_mileage" required/>
+                      </div>
+                      <div class="login-div">
+                        <label class="signup-label">Engine:</label>
+                        <input class="light-border" type="text" size="40px" name="car_engine" required/>
+                      </div>
+                     <div class="login-div">
+                        <label class="signup-label">Reg. Date:</label>
+                        <input class="light-border" type="date" size="40px" name="car_reg_date" required/>
+                    </div>
+                     <div class="login-div">
+                         <label class="signup-label">Inspect. Date:</label>
+                         <input class="light-border" type="date" size="40px" name="car_inspection_date" required/>
+                     </div>
+                     
+                     <div class="login-div">
+                        <select id="select-make" class="light-border", name="car_make_fk" required>
+                        <option value="">Select Make</option>
+                      </select>
+                      </div>
+                      <div class="login-div">
+                          <select id="select-fuel" class="light-border", name="car_fuel_fk" required>
+                          <option value="">Select Fuel Type</option>
+                        </select>
+                      </div> 
+                      <div class="login-div">
+                          <select id="select-gearbox" class="light-border", name="car_gearbox_fk" required>
+                          <option value="">Select Gearbox Type</option>
+                        </select>
+                        </div>                    
+                       <div class="login-div">
+                          <label class="signup-label">Upload car images:</label>
+                        <input class="light-border"
+                           type="file"
+                           name="photos"
+                           placeholder="Choose file"
+                           accept="image/*"
+                           multiple
+                           required>
+                      </div>
+                      <div class="login-div">
+                        <label class="signup-label">Profile image name:</label>
+                        <input class="light-border" type="text" size="40px" name="car_profile_image" required/>
+                      </div> 
+                     <div class="login-div">
+                         <button class="light-border login-btn" type="submit">CREATE</button>
+                     </div>
+                 </form>
+                 </div>
+        </div>
+<script src="./js/serialize.js"></script>
+<script src="./js/car-add.js"></script>
+</body>
+</html>

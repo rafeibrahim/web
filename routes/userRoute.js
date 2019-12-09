@@ -9,16 +9,17 @@ const auth = require('../middleware/auth.js');
 const pool = require('../database/db');
 const promisePool = pool.promise();
 
-router.get('/', async (req, res) => {
-    try {
-        const [rows] = await promisePool.query('SELECT * FROM web_user');
-        console.log([rows]);
-         res.json([rows]);
-      } catch (e) {
-        console.log('error', e.message);
-        res.json({error: 'error in database query'});
-      }   
-});
+//disabled route because we donot want to send all users back to client.
+// router.get('/', async (req, res) => {
+//     try {
+//         const [rows] = await promisePool.query('SELECT * FROM web_user');
+//         console.log([rows]);
+//          res.json([rows]);
+//       } catch (e) {
+//         console.log('error', e.message);
+//         res.json({error: 'error in database query'});
+//       }   
+// });
   
 // router.get('/:id', (req, res) => {
 //     res.send(`request received for user with id: ${req.params.id}`);
@@ -27,16 +28,16 @@ router.get('/', async (req, res) => {
  router.post('/register', async (req, res) => {
      console.log(req.body);
      const salt = bcrypt.genSaltSync(12);
-     const hash = bcrypt.hashSync(req.body.password, salt);
+     const hash = bcrypt.hashSync(req.body.user_password, salt);
      //console.log(hash);
-     console.log([req.body.name, req.body.email, req.body.address, hash]);
+     console.log([req.body.user_name, req.body.user_email, req.body.user_address, hash]);
      try{   
             //check if email is already present in database. email has to be unique for signing up --rafei
-            const [users] = await promisePool.execute('SELECT * FROM web_user WHERE user_email = ?;', [req.body.email]); 
+            const [users] = await promisePool.execute('SELECT * FROM web_user WHERE user_email = ?;', [req.body.user_email]); 
             if(users.length !== 0){
                 throw Error('email already exist :(');
             }
-                const [rows] = await promisePool.execute('INSERT INTO web_user (user_name, user_email, user_address, user_password) VALUES (?, ?, ?, ? );', [req.body.name, req.body.email, req.body.address, hash]);
+                const [rows] = await promisePool.execute('INSERT INTO web_user (user_name, user_email, user_address, user_password) VALUES (?, ?, ?, ? );', [req.body.user_name, req.body.user_email, req.body.user_address, hash]);
                 //const [rows] = await promisePool.execute('INSERT INTO  wop_user (name, email, password) VALUES (?, ?, ?);', params);
                 console.log([rows]);
                 console.log(rows.insertId);
@@ -48,40 +49,45 @@ router.get('/', async (req, res) => {
                 //creating json token for user who is signing up.
                 const token = jwt.sign({user_email: userArray[0].user_email}, 'webproject', {expiresIn: '24h'});
                 console.log(token);
-                const [tokenRows] = await promisePool.execute('INSERT INTO web_token (token_user_fk, token_content) VALUES (?, ?);', [userArray[0].user_id, token]);
-                console.log(tokenRows[0]);
+                //Not saving token now.... 
+                // const [tokenRows] = await promisePool.execute('INSERT INTO web_token (token_user_fk, token_content) VALUES (?, ?);', [userArray[0].user_id, token]);
+                // console.log(tokenRows[0]);
                 userArray[0].token = token;
+                //removing password from userObject returned to client. 
+                delete userArray[0].user_password;
 
 
                 res.send(userArray[0]);
         }catch(e){
                 console.log(e.message);
-                res.status(400).send();
+                res.status(400).send({error: e.message});
                 //return {error: 'error in database query'};
             }
  });
 
  router.post('/login', async (req, res) => {
     console.log(req.body);
-    const salt = bcrypt.genSaltSync(12);
-    const hash = bcrypt.hashSync(req.body.password, salt);
+    // const salt = bcrypt.genSaltSync(12);
+    // const hash = bcrypt.hashSync(req.body.password, salt);
     try{
-        const [userArray] = await promisePool.execute('SELECT * FROM web_user WHERE user_email = ?;', [req.body.email]);
+        const [userArray] = await promisePool.execute('SELECT * FROM web_user WHERE user_email = ?;', [req.body.user_email]);
         console.log(userArray);
         console.log(userArray[0]);
         if(userArray.length === 0){
             throw Error('wrong username or pasword');
         }
 
-        if(!bcrypt.compareSync(req.body.password, userArray[0].user_password)){
+        if(!bcrypt.compareSync(req.body.user_password, userArray[0].user_password)){
             throw Error('wrong username or password');
         };
-
-        const token = generateAuthToken(userArray[0].email);
+        console.log('testing user login path');
+        console.log(userArray[0].user_email);
+        const token = generateAuthToken(userArray[0].user_email);
         console.log(token);
-        const [tokenRows] = await promisePool.execute('INSERT INTO web_token (token_user_fk, token_content) VALUES (?, ?);', [userArray[0].user_id, token]);
-        console.log(tokenRows[0]);
-        res.send('post request received at /login');
+        //Not saving toke to database anylonger...
+        userArray[0].token = token;
+        delete userArray[0].user_password;
+        res.send(userArray[0]);
 
     }catch(e){
         console.log(e.message);
@@ -89,9 +95,8 @@ router.get('/', async (req, res) => {
     };
 });  
 
-router.get('/me', auth, async (req, res) => {
-    res.send (req.user);
-});
+
+router.get('/me', auth, userController.userGet);
 
 router.patch('/me', auth,  async (req, res) => {
     const updates = Object.keys(req.body);
@@ -154,5 +159,3 @@ router.delete('/me', auth, async(req, res) => {
  }
 
   module.exports = router;
-
- 
