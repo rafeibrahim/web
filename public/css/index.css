@@ -20,7 +20,7 @@ p{
     text-align: start;
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
-    font-size: 0.8em;
+    font-size: medium;
 }
 
 nav ul {
@@ -98,7 +98,7 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 }
 
 .car-li{
-    width: 20%;
+    width: 100%;
     margin: .5em;
 }
 
@@ -128,7 +128,7 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 }
 
 .app-container{
-    width: 60%;
+    width: 100%;
     margin: auto;
     background-color: lightgrey;
 }
@@ -140,7 +140,7 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 .event-container{
   border-radius: 8px; 
   border: 2px solid #7b7878;
-  width: 80%;
+  width: 95%;
   margin: auto;
   box-sizing: border-box;
   margin-top: 1em;
@@ -152,4 +152,28 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
   height: inherit;
   background-color: lightslategray;
   font-size: 0.8em;
+}
+
+@media screen and (min-width: 700px) {
+  /* ..larger screen sizes here.. */
+ .app-container{
+     width: 100%;
+ }
+
+ .car-li{
+   width: 45%;
+ }
+
+}
+
+ @media screen and (min-width: 900px) {
+  /* ..larger screen sizes here.. */
+ .app-container{
+     width: 80%;
+ }
+
+ .car-li{
+   width: 30%;
+ }
+
 }

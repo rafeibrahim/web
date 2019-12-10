@@ -1,7 +1,10 @@
+/*css for mobile first and then media queries for bigger displays*/
+@import url(https://fonts.googleapis.com/css?family=Abel);
+
 body{
     margin: 0;
     padding: 0;
-    font-family: Verdana;
+    font-family: Abel;
 }
 h1{
     text-align: center;
@@ -127,13 +130,13 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 }
 
 .app-container{
-    width: 60%;
+    width: 95%;
     margin: auto;
     background-color: lightgrey;
 }
 
 .update-container {
-    max-width: 30%;
+    max-width: 95%;
     margin: auto;
     padding: 1em;
 }
@@ -148,6 +151,7 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
     font-size: 1.17em;
     font-weight: bold;
     margin: auto;
+    display: block;
 }
 
 .login-btn{
@@ -166,7 +170,7 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
 .event-container{
   border-radius: 8px; 
   border: 2px solid #7b7878;
-  width: 80%;
+  width: 95%;
   margin: auto;
   box-sizing: border-box;
   margin-top: 1em;
@@ -176,4 +180,19 @@ nav li a:hover, .nav-dropdown:hover .nav-dropbtn {
   color: white;
   height: 1.5em;
   background-color: lightslategray;
+}
+
+
+@media screen and (min-width: 700px) {
+  /* ..larger screen sizes here.. */
+ .app-container{
+     width: 80%;
+ }
+}
+
+ @media screen and (min-width: 900px) {
+  /* ..larger screen sizes here.. */
+ .app-container{
+     width: 60%;
+ }
 }
