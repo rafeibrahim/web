@@ -1,6 +1,5 @@
 'use strict';
-const path = require('path');
-const date = require('date-and-time');
+
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
@@ -8,9 +7,6 @@ const multer = require('multer');
 const upload = multer({dest: './uploads'});
 const auth = require('../middleware/auth.js');
 const carController = require('../controllers/carController');
-const resize = require('../utils/resize.js');
-const pool = require('../database/db');
-const promisePool = pool.promise();
 
 //path created for returning carmakes options to user
 router.get('/make', carController.carModelsGet);
