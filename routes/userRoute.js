@@ -98,6 +98,15 @@ const promisePool = pool.promise();
 
 router.get('/me', auth, userController.userGet);
 
+
+//route not checking whether car already present in favourities. In the front end we are only giving add-fav option
+//to user if the car is not already in their favourities. However for future dev this feature must be added to backend so that it checks 
+//user favourities before inserting new values.
+router.put('/meAddFav', auth, userController.userAddFav);
+
+
+router.delete('/meRemoveFav/:id', auth, userController.userRemoveFav);
+
 router.patch('/me', auth,  async (req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ['user_name', 'user_address', 'user_password'];

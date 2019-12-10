@@ -6,13 +6,48 @@ const date = require('date-and-time');
 
 
 const carListGet = async (req, res) => {
+    // console.log('carListGet function called');
+    // console.log('req.params', req.params);
+    // if(req.params.hasOwnProperty('sort')){
+    //     console.log('pramas contain sort param');
+    //  }else{
+    //      console.log('params donot contain param');
+    //  }
     const cars = await carModel.getAllCars();
     await res.json(cars);
 };
 
+const carListGetSort = async (req, res) => {
+    console.log('carListGet function called');
+    console.log('req.params', req.params);
+    console.log(req.params.type);
+    if(req.params.type === 'byAdTime'){
+        const cars = await carModel.adTimeSortAllCars();
+        await res.json(cars);
+    }else if(req.params.type === 'byCarAge'){
+        const cars = await carModel.carAgeSortAllCars();
+        await res.json(cars);
+    }
+    
+    else{
+        res.json({error: 'sort query do not exist'});
+    }
+    
+};
+
+
+
 const carGet = async (req, res) => {
     const params = [req.params.id];
     const car = await carModel.getCar(params);
+    await res.json(car);
+}
+
+const carDelete = async (req, res) => {
+    console.log('carDelete from carController running');
+    const params = [req.params.id];
+    const car = await carModel.deleteCar(params);
+    console.log(car);
     await res.json(car);
 }
 
@@ -106,5 +141,7 @@ module.exports = {
     carModelsGet,
     carFuelsGet,
     carGearboxesGet,
-    uploadCar
+    uploadCar,
+    carDelete,
+    carListGetSort
 }

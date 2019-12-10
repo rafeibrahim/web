@@ -12,10 +12,122 @@ const carDetailsList = document.querySelector('#car-details-list');
 const ownerDetailsList = document.querySelector('#owner-details-list');
 const homeBtn = document.querySelector('#home-btn');
 const editBtn = document.querySelector('#edit-btn');
+const delBtn = document.querySelector('#del-btn');
+const favBtn = document.querySelector('#fav-btn');
 
 homeBtn.addEventListener('click', () => {
     window.location.href = localUrl;
 });
+
+delBtn.addEventListener('click', async () => {
+  try{
+      const token = window.localStorage.getItem('token');
+      const fetchOptions = {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        },
+      };
+
+      const response = await fetch(serverUrl + '/car/' + carId, fetchOptions);
+      const json = await response.json();
+
+      if (json.error) {
+        
+        // eventP.innerHTML = 'Welcome to CARAPP.';
+      } else {
+        
+        // eventP.innerHTML = `LOGGED IN AS ${json.user_name} WELCOME TO CARAPP`;
+        // eventP.style.backgroundColor = '#436b43';
+        window.location.href = localUrl + 'userPage.html';
+      }
+  }catch(e){
+    console.log(e.message);
+  }  
+});
+
+ //click event to log-btn in nav bar. taking action based on btn content.
+ favBtn.addEventListener('click', async () => {
+   console.log('favbtn clicked');
+   console.log(favBtn.innerHTML);
+    if(favBtn.innerHTML == 'Add to Fav'){
+      console.log('Add to Fav detected');
+        //send fetch request to add this car to logged in user favourities
+        try {
+          const token = window.localStorage.getItem('token');
+          const body = {
+            carId
+          }
+          const fetchOptions = {
+            method: 'PUT',
+            headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+            },
+            body: JSON.stringify(body),
+          };
+          console.log(fetchOptions);
+          const response = await fetch(serverUrl + '/user/meAddFav', fetchOptions);
+          const json = await response.json();
+          if (json.error) {
+            console.json(json.error);
+            // eventP.innerHTML = 'Welcome to CARAPP.';
+          } else {
+            // eventP.innerHTML = `LOGGED IN AS ${json.user_name} WELCOME TO CARAPP`;
+            // eventP.style.backgroundColor = '#436b43';
+            window.location.href = localUrl + 'userPage.html';
+          }
+        }catch(e){
+          console.log(e.message);
+        }
+    }else{
+      //to do if fav-btn is remove-favourities
+      try {
+        const token = window.localStorage.getItem('token');
+        const fetchOptions = {
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+          },
+        };
+  
+        const response = await fetch(serverUrl + '/user/meRemoveFav/' + carId, fetchOptions);
+        const json = await response.json();
+        if (json.error) {
+          console.log(json.error);
+          // eventP.innerHTML = 'Welcome to CARAPP.';
+        } else {
+          // eventP.innerHTML = `LOGGED IN AS ${json.user_name} WELCOME TO CARAPP`;
+          // eventP.style.backgroundColor = '#436b43';
+          window.location.href = localUrl + 'userPage.html';
+        }
+      }catch(e){
+        console.log(e.message);
+      }
+    }
+});
+
+    
+      // example code for PUT request. 
+      // modForm.addEventListener('submit', async (evt) => {
+      //   evt.preventDefault();
+      //   const data = serializeJson(modForm);
+      //   const fetchOptions = {
+      //     method: 'PUT',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+      //     },
+      //     body: JSON.stringify(data),
+      //   };
+      
+      //   console.log(fetchOptions);
+      //   const response = await fetch(url + '/cat', fetchOptions);
+      //   const json = await response.json();
+      //   console.log('modify response', json);
+      //   getCat();
+      // });
+
 
 const createImageCards = (imageArray) => {
     //clear ul
@@ -158,15 +270,41 @@ const checkLogStatus = async () => {
       const json = await response.json();
       console.log('login response', json);
       if (json.error) {
+         favBtn.classList.toggle('hide', true);
          editBtn.classList.toggle('hide', true);
+         delBtn.classList.toggle('hide', true);
       } else {
+
+        //logged in user must see the favBtn. content depends on whether this car exists in user's favs or not
+        favBtn.classList.toggle('hide', false);
+        favBtn.innerHTML = 'Add to Fav';
+        console.log(json.user_fav_cars);
+        for(const carIdObject of json.user_fav_cars){
+          if(carIdObject.fav_car_fk == carId){
+              favBtn.innerHTML = 'Remove from Fav';
+          }
+        }
+
         editBtn.classList.toggle('hide', true);
+        delBtn.classList.toggle('hide', true);
+        //if car belongs to logged in user then edit and del btns should be visible.
         for(const carIdObject of json.user_cars){
             if(carIdObject.car_id == carId){
                 editBtn.classList.toggle('hide', false);
+                delBtn.classList.toggle('hide', false);
+                //logged in user must not see favBtn if user owns that car add. 
+                favBtn.classList.toggle('hide', true);
                 return;
             }
         }
+
+        //check if user is admin then delete button should be visible
+
+        if(json.user_admin === 1){
+          delBtn.classList.toggle('hide', false);
+        }
+        
+        
       }
     }catch(e){
       console.log(e.message);

@@ -8,6 +8,10 @@ const accBtn = document.querySelector('#acc-btn');
 const signUpBtn = document.querySelector('#signup-btn');
 const userPageBtn = document.querySelector('#userPage-btn');
 const settingsBtn = document.querySelector('#settings-btn');
+const oldAdFirstBtn = document.querySelector('#old-ad-first-btn');
+const newAdFirstBtn = document.querySelector('#new-ad-first-btn');
+const oldCarFirstBtn = document.querySelector('#old-car-first-btn');
+const newCarFirstBtn = document.querySelector('#new-car-first-btn');
 const eventP = document.querySelector('#event-p');
 let currentUser = undefined;
 const homeBtn = document.querySelector('#home-btn');
@@ -31,7 +35,41 @@ settingsBtn.addEventListener('click', () => {
   window.location.href = localUrl + '/user-settings.html';
 });
 
-//create cat cards
+//SORTING MECHANISMS BELOW
+
+//adding click event to oldAdFirstBtn 
+oldAdFirstBtn.addEventListener('click', async() => {
+  const cars = await getAllCarBySort('byAdTime');
+  console.log(cars);
+  createCatCards(cars);
+})
+
+//adding click event to newAdFirstBtn 
+newAdFirstBtn.addEventListener('click', async() => {
+  const cars = await getAllCarBySort('byAdTime');
+  //we reverse the received array to get latest ad on top.
+  cars.reverse();
+  console.log(cars);
+  createCatCards(cars);
+})
+
+//adding click event to oldCarFirstBtn 
+oldCarFirstBtn.addEventListener('click', async() => {
+  const cars = await getAllCarBySort('byCarAge');
+  console.log(cars);
+  createCatCards(cars);
+})
+
+//adding click event to newCarFirstBtn 
+newCarFirstBtn.addEventListener('click', async() => {
+  const cars = await getAllCarBySort('byCarAge');
+  //we reverse the received array to get newest car on top.
+  cars.reverse();
+  console.log(cars);
+  createCatCards(cars);
+})
+
+//create car cards
 const createCatCards = (cars) => {
     // clear ul
     ul.innerHTML = '';
@@ -69,9 +107,9 @@ const createCatCards = (cars) => {
             window.location.href = redirectURL;
         });
 
-      const favButton = document.createElement('button');
-      favButton.innerHTML = 'Add to Favourities'; 
-      favButton.classList.add('car-btn');
+      // const favButton = document.createElement('button');
+      // favButton.innerHTML = 'Add to Favourities'; 
+      // favButton.classList.add('car-btn');
       
       const li = document.createElement('li');
       li.classList.add('light-border', 'car-li');
@@ -83,11 +121,12 @@ const createCatCards = (cars) => {
       li.appendChild(p3);
       li.appendChild(p4);
       li.appendChild(detailsButton);
-      li.appendChild(favButton);
+      // li.appendChild(favButton);
       ul.appendChild(li);
     });
   };
 
+  //getting all cars stored in database
   const getCar = async () => {
     try {
       const response = await fetch(serverUrl + '/car/');
@@ -98,6 +137,21 @@ const createCatCards = (cars) => {
       console.log(e.message);
     }
   };
+
+  //getting all cars sorted by add publish time
+  const getAllCarBySort = async (sortType) => {
+    try {
+      const response = await fetch(serverUrl + '/car/sort/' + sortType);
+      const cars = await response.json();
+      return cars;
+    }
+    catch (e) {
+      console.log(e.message);
+    }
+  };
+
+
+
 
   //click event to log-btn in nav bar. taking action based on btn content.
   logBtn.addEventListener('click', () => {
@@ -145,6 +199,9 @@ const createCatCards = (cars) => {
       console.log(e.message);
     }
   };
+
+
+
 
   checkLogStatus();
   getCar();

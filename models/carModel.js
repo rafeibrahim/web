@@ -35,6 +35,72 @@ const getAllCars = async () => {
     }
 }
 
+const adTimeSortAllCars = async () => {
+  try{
+    //Extracting fields which are required by front end. 
+    const [carRows] = await promisePool.query(`
+    SELECT web_car.car_id, web_car.car_reg, web_car.car_model, web_car.car_price, web_car.car_reg_date, web_car.car_inspection_date, web_car.car_ad_date_time, web_car.car_location, 
+    web_car.car_mileage, web_car.car_engine, web_make.make_name, web_gearbox.gearbox_type,
+    web_fuel.fuel_type, web_user.user_id, web_user.user_name, web_user.user_email, web_user.user_address
+    FROM web_car 
+    LEFT JOIN web_make ON web_car.car_make_fk = web_make.make_id
+    LEFT JOIN web_gearbox ON web_car.car_gearbox_fk = web_gearbox.gearbox_id
+    LEFT JOIN web_fuel ON web_car.car_fuel_fk = web_fuel.fuel_id
+    LEFT JOIN web_user ON web_car.car_user_fk = web_user.user_id
+    ORDER BY web_car.car_ad_date_time
+    `);
+    console.log(carRows);
+    for(const car of carRows){
+      const [imageRows] = await promisePool.query(`
+      SELECT web_image.image_filename FROM web_image WHERE web_image.image_car_fk = ? && web_image.image_profile = 1 
+      `, [car.car_id]);
+      car.car_profile_image = imageRows[0];
+
+      var d = new Date(car.car_reg_date);
+      car.car_reg_date = (d.getMonth() + 1).toString() + '-' + d.getFullYear().toString();
+    };
+    console.log(carRows);
+     return carRows;
+
+    }catch(e){
+        console.log('error', e.message);
+        return ({error: 'operation unsuccessful'});
+    }
+}
+
+const carAgeSortAllCars = async () => {
+  try{
+    //Extracting fields which are required by front end. 
+    const [carRows] = await promisePool.query(`
+    SELECT web_car.car_id, web_car.car_reg, web_car.car_model, web_car.car_price, web_car.car_reg_date, web_car.car_inspection_date, web_car.car_ad_date_time, web_car.car_location, 
+    web_car.car_mileage, web_car.car_engine, web_make.make_name, web_gearbox.gearbox_type,
+    web_fuel.fuel_type, web_user.user_id, web_user.user_name, web_user.user_email, web_user.user_address
+    FROM web_car 
+    LEFT JOIN web_make ON web_car.car_make_fk = web_make.make_id
+    LEFT JOIN web_gearbox ON web_car.car_gearbox_fk = web_gearbox.gearbox_id
+    LEFT JOIN web_fuel ON web_car.car_fuel_fk = web_fuel.fuel_id
+    LEFT JOIN web_user ON web_car.car_user_fk = web_user.user_id
+    ORDER BY web_car.car_reg_date
+    `);
+    console.log(carRows);
+    for(const car of carRows){
+      const [imageRows] = await promisePool.query(`
+      SELECT web_image.image_filename FROM web_image WHERE web_image.image_car_fk = ? && web_image.image_profile = 1 
+      `, [car.car_id]);
+      car.car_profile_image = imageRows[0];
+
+      var d = new Date(car.car_reg_date);
+      car.car_reg_date = (d.getMonth() + 1).toString() + '-' + d.getFullYear().toString();
+    };
+    console.log(carRows);
+     return carRows;
+
+    }catch(e){
+        console.log('error', e.message);
+        return ({error: 'operation unsuccessful'});
+    }
+}
+
 const getCar = async (params) => {
     try{
         const [carRowsForID] = await promisePool.query(`
@@ -174,6 +240,35 @@ const getCarImages = async(params) => {
   }
 }
 
+const deleteCar = async (params) => {
+  console.log('deleteCar function running')
+  console.log(params);
+  try{
+    //first we will remove deleted car saved as favourities. 
+    const [favRowsForCarID] = await promisePool.query(`
+    DELETE FROM web_fav WHERE fav_car_fk = ?;
+    `, params);
+    console.log(favRowsForCarID);
+
+    //second we will remove all images saved for the car.
+    const [imageRowsForCarID] = await promisePool.query(`
+    DELETE FROM web_image WHERE image_car_fk = ?;
+    `, params);
+    console.log(imageRowsForCarID);
+
+    //third we will remove the car it self
+    const [carRowsForID] = await promisePool.query(`
+    DELETE FROM web_car WHERE car_id = ?;
+    `, params);
+
+    console.log(carRowsForID);
+    return carRowsForID
+  }catch(e){
+    console.log('error', e.message);
+    return ({error: 'operation unsuccessful'});
+  }
+}
+
 
 
 
@@ -187,5 +282,8 @@ module.exports = {
     addCar,
     addCarImage,
     addCarProfileImage,
-    getCarImages
+    getCarImages,
+    deleteCar,
+    adTimeSortAllCars,
+    carAgeSortAllCars
 }

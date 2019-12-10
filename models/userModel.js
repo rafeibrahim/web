@@ -12,6 +12,15 @@ const getUser = async (user) => {
         `, [user.user_id]); 
         console.log(carRowsForUserId);
         user.user_cars = carRowsForUserId;
+
+        const [favRowsByUserId] = await promisePool.query(`
+        SELECT web_fav.fav_car_fk
+        FROM web_fav
+        WHERE web_fav.fav_user_fk = ?;
+        `, [user.user_id]);
+        console.log(favRowsByUserId);
+        user.user_fav_cars = favRowsByUserId;
+
         delete user.user_password;
         return user;
     }catch(e){
@@ -20,7 +29,38 @@ const getUser = async (user) => {
     }
 }
 
+const favAddCar = async (params) => {
+    try{
+        const [favRowsByUserId] = await promisePool.query(`
+        INSERT INTO web_fav (fav_car_fk, fav_user_fk)
+    VALUES (?, ?);        
+        `, params); 
+        console.log(favRowsByUserId);
+        return favRowsByUserId;
+
+    }catch(e){
+        console.log('error', e.message);
+        return {error: 'operation unsuccessful'};
+    }
+}
+
+const favRemoveCar = async (params) => {
+    try{
+        const [favRowsByUserId] = await promisePool.query(`
+        DELETE FROM web_fav WHERE fav_car_fk = ? && fav_user_fk = ?;        
+        `, params); 
+        console.log(favRowsByUserId);
+        return favRowsByUserId;
+
+    }catch(e){
+        console.log('error', e.message);
+        return {error: 'operation unsuccessful'};
+    }
+}
+
 
 module.exports = {
-    getUser
+    getUser,
+    favAddCar,
+    favRemoveCar
 }
