@@ -1,8 +1,7 @@
 
 'use strict';
-const serverUrl = 'https://localhost:8000'; // change url when uploading to server
-
-const localUrl = 'http://127.0.0.1:5500/public/';
+const serverUrl = 'https://10.114.32.138/carapp'; 
+const localUrl = 'https://10.114.32.138/carapp/';
 
 const adCreateForm = document.querySelector('#ad-create-form');
 console.log(adCreateForm);
@@ -19,19 +18,19 @@ homeBtn.addEventListener('click', () => {
   window.location.href = localUrl;
 });
 
-
-if(window.localStorage.getItem('create')){
-          if(window.localStorage.getItem('create') == 'true'){
-          eventP.innerHTML = `ADD CREATED`;
-          eventP.style.backgroundColor = '#436b43';
-          window.localStorage.removeItem('create');
-          window.location.href = localUrl + '/userPage.html';
-          }else{
-            eventP.innerHTML = `ADD CREATION FAILED`;
-          eventP.style.backgroundColor = '#436b43';
-          window.localStorage.removeItem('create');
-          }
-        }
+//not needed for server copy. form is not refershing page on server
+// if(window.localStorage.getItem('create')){
+//           if(window.localStorage.getItem('create') == 'true'){
+//           eventP.innerHTML = `ADD CREATED`;
+//           eventP.style.backgroundColor = '#436b43';
+//           window.localStorage.removeItem('create');
+//           window.location.href = localUrl + '/userPage.html';
+//           }else{
+//             eventP.innerHTML = `ADD CREATION FAILED`;
+//           eventP.style.backgroundColor = '#436b43';
+//           window.localStorage.removeItem('create');
+//           }
+//         }
 
 //creating options for make, fuel and gearbox
 const createMakeOptions = (makes, fuels, gearboxes) => {
@@ -112,10 +111,18 @@ adCreateForm.addEventListener('submit', async (evt) => {
     
     if (json.error) {
       //in case of error
-        window.localStorage.setItem('create', false);       
+        //window.localStorage.setItem('create', false); 
+        eventP.innerHTML = 'Failed to create AD:( Please try again';
+        eventP.style.color = 'white';
+        eventP.style.backgroundColor = '#d84e4e'; 
+
      } else {
        //in case of success
-        window.localStorage.setItem('create', true);      
+        //window.localStorage.setItem('create', true); 
+        eventP.innerHTML = 'AD created successfully :) Redirecting to home page...'
+        eventP.style.color = 'white';
+        eventP.style.backgroundColor = '#436b43';  
+        window.location.href = localUrl + '/userPage.html';      
      } 
     });
 
