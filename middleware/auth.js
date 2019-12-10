@@ -1,3 +1,5 @@
+//auth middleware checks whether user has send the valid token or not. In case of valid token it attaches that user to req.user. (rafei)
+
 'use strict'
 const jwt = require('jsonwebtoken');
 
@@ -21,16 +23,7 @@ const auth = async (req, res, next) =>{
         if(users.length == 0){
             throw Error('no user exist with this email');
         }
-        // const user_id = users[0].user_id;
-        // const [tokenRows] = await promisePool.execute('SELECT * FROM web_token where token_user_fk = ? && token_content = ?;', [user_id, token]);
-        // console.log(tokenRows);
-        // if(tokenRows.length == 0){
-        //     throw Error('token not present in database with this user_id');
-        // }
-
-        //attaching user found through token to req.user
         req.user = users[0];
-
         next();
 
     } catch(e){

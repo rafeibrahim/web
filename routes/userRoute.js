@@ -146,22 +146,25 @@ router.patch('/me', auth,  async (req, res) => {
     }
 });
 
-router.delete('/me', auth, async(req, res) => {
-    try{
-    console.log(req.user);
-    //Must also delete all cars associated with this user from web_car.
-    //to be implemented yet after car routes have been created. 
-    //then we have to delete saved tokens from web_token for the user.
-    const [tokenRows] = await promisePool.execute('DELETE FROM web_token WHERE token_user_fk = ?;', [req.user.user_id]);
-    //then finally we remove user from web_user
-    const [userRows] = await promisePool.execute('DELETE FROM web_user WHERE user_id = ?;', [req.user.user_id]);
-    res.send(req.user);
-    }catch(e){
-        res.status(500).send();
-    }
 
-});
+//delete user route is not implemented yet. Left for future development.
+// router.delete('/me', auth, async(req, res) => {
+//     try{
+//     console.log(req.user);
+//     //Must also delete all cars associated with this user from web_car.
+//     //to be implemented yet after car routes have been created. 
+//     //then we have to delete saved tokens from web_token for the user.
+//     const [tokenRows] = await promisePool.execute('DELETE FROM web_token WHERE token_user_fk = ?;', [req.user.user_id]);
+//     //then finally we remove user from web_user
+//     const [userRows] = await promisePool.execute('DELETE FROM web_user WHERE user_id = ?;', [req.user.user_id]);
+//     res.send(req.user);
+//     }catch(e){
+//         res.status(500).send();
+//     }
+
+// });
   
+//function for generating jwt token.
  const generateAuthToken = (user_email) => {
     const token = jwt.sign({user_email}, 'webproject', {expiresIn: '24h'});
     return token;

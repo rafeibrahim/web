@@ -29,6 +29,7 @@ const getUser = async (user) => {
     }
 }
 
+//add favourities to logged in user
 const favAddCar = async (params) => {
     try{
         const [favRowsByUserId] = await promisePool.query(`
@@ -44,6 +45,7 @@ const favAddCar = async (params) => {
     }
 }
 
+//remove favourities from loggid in user
 const favRemoveCar = async (params) => {
     try{
         const [favRowsByUserId] = await promisePool.query(`

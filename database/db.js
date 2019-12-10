@@ -1,3 +1,5 @@
+//module for connection to database. (rafei)
+
 'use strict';
 const mysql = require('mysql2');
 require('dotenv').config();
