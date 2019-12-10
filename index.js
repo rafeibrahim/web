@@ -17,7 +17,7 @@ if(process.env.SERVER === 'dev_localhost'){
     require('./secure/localhost')(app);
 }else{
         require('./secure/server')(app);
-        app.listen(3000, () => {
+        app.listen(3002, () => {
         console.log(`server app start? listening at port `);
         });
 }
