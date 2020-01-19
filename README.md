@@ -3,7 +3,6 @@ Basics of Web Technology Fall 2019
 Project Documentation
 
 # Name of Project: carapp
-Project Members: Asim Ghani, Kashif Qamar Malik and Rafe Ibrahim
 
 # Project Description
  The Car App is a digital platform to place car adds for purchasing and selling cars.
